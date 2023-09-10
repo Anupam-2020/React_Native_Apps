@@ -13,7 +13,7 @@ const FavouritesScreen = () => {
       {
         data?.map((movie, index) => {
           return (
-            <ScrollView key={index} style={styles.favContainer}>
+            <View key={index} style={styles.favContainer}>
               <View>
                 <Image style={styles.image} source={{uri: IMAGE_BASE_URL+movie.poster_path}}/>
                 <Text style={[styles.textStyle, {fontWeight: 'bold', fontSize: 20, textAlign: 'center', marginTop: 15}]}>{movie.name}</Text>
@@ -21,7 +21,7 @@ const FavouritesScreen = () => {
                 <Text style={[styles.textStyle, {color: '#6b6969'}]}>Rating - {movie.vote_average}</Text>
                 <Text style={[styles.textStyle, {fontSize: 24}]}>{movie.overview}</Text> 
               </View>
-            </ScrollView>
+            </View>
           )
         })
       }
@@ -34,7 +34,6 @@ export default FavouritesScreen
 const styles = StyleSheet.create({
   favContainer: {
     backgroundColor: 'black',
-    height: '100%',
   },
   image: {
     width: '100%',

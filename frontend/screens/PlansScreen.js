@@ -11,15 +11,17 @@ import React from "react";
 import { plans } from "../data/plans";
 import { Fontisto } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { useDatabase } from "../util/useDatabase";
 
-const PlansScreen = ({navigation}) => {
+const PlansScreen = ({navigation, route}) => {
+
+  const email = route.params.email;
+  const password = route.params.password;
 
   const navigateToLoginScreen = (name, price) => {
     // console.log(name, price)
-    navigation.navigate('Login', {
-      price: price,
-      name: name
-    })
+    useDatabase(email, password, true, price, name)
+    navigation.navigate('Login')
   }
 
   const RenderPlans = ({

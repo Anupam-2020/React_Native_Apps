@@ -7,26 +7,46 @@ import {
   TextInput,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useGetDatabase } from "../util/useGetDatabase";
 
-const RegisterScreen = ({ navigation }) => {
+const LoginScreen = ({navigation}) => {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [database, setDatabase] = useState();
+  const [correctInput, setCorrectInput] = useState(true);
 
-  const userEmail = (email) => {
-    setEmail(email);
+  const NETFLIX_LOGO = 'http://pngimg.com/uploads/netflix/netflix_PNG12.png';
+
+  const userEmail = (e) => {
+    setEmail(e);
   };
 
-  const userPassword = (password) => {
-    setPassword(password);
+  const userPassword = (e) => {
+    setPassword(e);
   };
+
+  const navigateToLoadingPage = () => {
+    const bool = database?.find((data) => {
+      return data.userName === email && data.password === password
+    })
+    console.log(bool);
+    bool ? navigation.navigate('Loading') : setCorrectInput(false)
+  }
 
   const navigateToRegister = () => {
-    password.length > 5 && email.includes('@') ? navigation.navigate("Plan", {
-        email,
-        password,
-      }) : null
-  };
+    navigation.navigate('Register')
+  }
+
+  const getDatabaseData = async () => {
+    const data = await useGetDatabase();
+    setDatabase(data);
+  }
+
+  useEffect(() => {
+      getDatabaseData()
+  },[])
 
   return (
     <View style={styles.container}>
@@ -35,7 +55,7 @@ const RegisterScreen = ({ navigation }) => {
           <Image
             style={styles.netflixImage}
             source={{
-              uri: "https://i0.wp.com/www.downloadfonts.io/wp-content/uploads/2021/09/Netflix-Logo-Font.png?fit=1024%2C581&ssl=1",
+              uri: NETFLIX_LOGO,
             }}
           />
           <View style={styles.loginDetails}>
@@ -54,21 +74,14 @@ const RegisterScreen = ({ navigation }) => {
               onChangeText={userPassword}
             />
           </View>
-          <Pressable
-            style={
-              password.length > 5 && email.includes('@')
-                ? [
-                    styles.signInButton,
-                    { backgroundColor: "red", borderWidth: 0 },
-                  ]
-                : styles.signInButton
-            }
-            onPress={navigateToRegister}
-          >
-            <Text style={styles.buttonText}>Register</Text>
+          <Pressable onPress={navigateToLoadingPage} style={password.length > 5 ?  [styles.signInButton,{backgroundColor: 'red', borderWidth: 0}] : styles.signInButton}>
+            <Text style={styles.buttonText}>Sign In</Text>
+          </Pressable>
+          <Pressable onPress={navigateToRegister}>
+            <Text style={styles.text}>New To Netflix? Sign Up Now</Text>
           </Pressable>
           <Pressable>
-            <Text style={styles.text}>Welcome To Netflix</Text>
+            <Text style={[styles.text, correctInput ? {display: 'none'} : {display: 'flex'}]}>Login Credentials not found</Text>
           </Pressable>
         </View>
       </KeyboardAvoidingView>
@@ -76,7 +89,7 @@ const RegisterScreen = ({ navigation }) => {
   );
 };
 
-export default RegisterScreen;
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -93,7 +106,6 @@ const styles = StyleSheet.create({
   loginTextInput: {
     backgroundColor: "#888787",
     color: "white",
-    // paddingRight: 240,
     borderRadius: 5,
     paddingVertical: 6,
     paddingLeft: 15,
