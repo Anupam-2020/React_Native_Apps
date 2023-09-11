@@ -1,5 +1,5 @@
 export const useDatabase = async (username, password, isLoggedIn, price, name) => {
-  // console.log(username+','+password+','+isLoggedIn+','+price)
+
   try {
     const response = await fetch("http://localhost:3000/", {
       method: "POST",
@@ -14,10 +14,8 @@ export const useDatabase = async (username, password, isLoggedIn, price, name) =
     });
     const data = await response.json();
     console.log(data);
+    return data;
 
-    // const response = await fetch('http://localhost:3000/')
-    // const data = await response.text()
-    // console.log(data);
   } catch (err) {
     console.log(err);
   }

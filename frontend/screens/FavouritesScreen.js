@@ -2,7 +2,9 @@ import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
-const FavouritesScreen = () => {
+const FavouritesScreen = ({route}) => {
+  const listOfMovies = route.params.listOfMovies;
+
     const data = useSelector(state => state.fav);
     const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original/';
     // const [movie, setMovie] = useState();
@@ -11,7 +13,7 @@ const FavouritesScreen = () => {
   return (
     <ScrollView>
       {
-        data?.map((movie, index) => {
+        listOfMovies ? listOfMovies.map((movie, index) => {
           return (
             <View key={index} style={styles.favContainer}>
               <View>
@@ -23,7 +25,12 @@ const FavouritesScreen = () => {
               </View>
             </View>
           )
-        })
+        }) : 
+          (<View style={{ 
+            backgroundColor: 'black', 
+          }}>
+            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>No Movies Found</Text>
+          </View>)
       }
     </ScrollView>
   )

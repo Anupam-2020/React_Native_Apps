@@ -7,7 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import useApi from '../util/useApi';
 import { useNavigation } from '@react-navigation/native';
 
-const Header = () => {
+const Header = ({listOfMovies}) => {
 
   const NETFLIX_LOGO = 'http://pngimg.com/uploads/netflix/netflix_PNG12.png';
 
@@ -25,7 +25,9 @@ const Header = () => {
   },[results])
 
   const navigateToFavScreen = () => {
-    navigation.navigate('Favourite');
+    navigation.navigate('Favourite', {
+      listOfMovies
+    });
   }
 
   return (

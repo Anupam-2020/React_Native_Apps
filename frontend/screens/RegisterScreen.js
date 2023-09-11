@@ -8,12 +8,10 @@ import {
   View,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { useGetDatabase } from "../util/useGetDatabase";
 
 const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [database, setDatabase] = useState();
   const [correctInput, setCorrectInput] = useState('');
 
   const userEmail = (email) => {
@@ -25,21 +23,11 @@ const RegisterScreen = ({ navigation }) => {
   };
 
   const navigateToRegister = () => {
-    const bool = database?.find((data) => data.userName === email);
-    bool ? setCorrectInput('user found') : password.length > 5 && email.includes('@') ? navigation.navigate("Plan", {
-        email,
-        password,
-      }) : setCorrectInput('Wrong credentials')
+    password.length > 5 && email.includes('@') ? [navigation.navigate('Plan', {
+      email, 
+      password
+    }) , setCorrectInput('user found')] : setCorrectInput('Wrong Credentials');
   };
-
-  const getDatabaseData = async () => {
-    const data = await useGetDatabase();
-    setDatabase(data);
-  }
-
-  useEffect(() => {
-      getDatabaseData()
-  },[])
 
   return (
     <View style={styles.container}>
@@ -83,10 +71,10 @@ const RegisterScreen = ({ navigation }) => {
           <Pressable>
             <Text style={styles.text}>Welcome To Netflix</Text>
           </Pressable>
-          <Text style={[styles.text, correctInput === 'user found' ? {display: 'flex'} : {display: 'none'}]}>
-            User already in the database
+          <Text style={[styles.text, correctInput === 'Wrong Credentials' ? {display: 'flex'} : {display: "none"}]}>
+            Please enter valid details
           </Text>
-          <Text style={[styles.text, correctInput === 'Wrong credentials' ? {display: 'flex'} : {display: "none"}]}>Please enter valid details</Text>
+          <Text style={[styles.text, correctInput === 'user found' ? {display: 'flex'} : {display: 'none'}]}>User already exists.</Text>
         </View>
       </KeyboardAvoidingView>
     </View>

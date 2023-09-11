@@ -4,14 +4,16 @@ import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
 import { actions } from '../store/favouriteSlice';
+import { usePostMovieList } from '../util/usePostMovieList';
 
-const ModalScreen = ({modal, showModal, details}) => {
+const ModalScreen = ({modal, showModal, details, username}) => {
 
     const dispatch = useDispatch();
     const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original/';
     console.log(details);
 
     const submtHandler = () => {
+        usePostMovieList(details, username)
         dispatch(actions.addToFavs(details));
         showModal(false);
     }

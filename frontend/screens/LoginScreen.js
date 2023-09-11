@@ -8,14 +8,21 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useGetDatabase } from "../util/useGetDatabase";
+import { useLoginCheckDatabase } from "../util/useLoginCheckDatabase";
 
 const LoginScreen = ({navigation}) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [database, setDatabase] = useState();
+  const [dbData, setDbData] = useState();
   const [correctInput, setCorrectInput] = useState(true);
+
+  const dbResponse = async(email, password) => {
+    const response = await useLoginCheckDatabase(email, password);
+    console.log(response);
+    setDbData(response);
+    console.log(dbData)
+  }
 
   const NETFLIX_LOGO = 'http://pngimg.com/uploads/netflix/netflix_PNG12.png';
 
@@ -28,25 +35,17 @@ const LoginScreen = ({navigation}) => {
   };
 
   const navigateToLoadingPage = () => {
-    const bool = database?.find((data) => {
-      return data.userName === email && data.password === password
-    })
-    console.log(bool);
-    bool ? navigation.navigate('Loading') : setCorrectInput(false)
+    dbResponse(email, password);
+
+    dbData?.error ? setCorrectInput(false) : dbData?.userName ? navigation.navigate('Loading',{
+      username: email,
+      list : dbData?.list
+    }) : null
   }
 
   const navigateToRegister = () => {
     navigation.navigate('Register')
   }
-
-  const getDatabaseData = async () => {
-    const data = await useGetDatabase();
-    setDatabase(data);
-  }
-
-  useEffect(() => {
-      getDatabaseData()
-  },[])
 
   return (
     <View style={styles.container}>

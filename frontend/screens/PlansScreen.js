@@ -1,13 +1,13 @@
 import {
+  Alert,
   FlatList,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
   View,
-  VirtualizedList,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { plans } from "../data/plans";
 import { Fontisto } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
@@ -17,11 +17,28 @@ const PlansScreen = ({navigation, route}) => {
 
   const email = route.params.email;
   const password = route.params.password;
+  const [dbData, setDbData] = useState();
 
-  const navigateToLoginScreen = (name, price) => {
-    // console.log(name, price)
-    useDatabase(email, password, true, price, name)
-    navigation.navigate('Login')
+  const dbResponse = async(planName, planPrice) => {
+    try {
+      const data = await useDatabase(email, password, false, planPrice, planName)
+      setDbData(data);
+      console.log(dbData)
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
+
+  const navigateToLoadingPage = (name, price) => {
+    dbResponse(name, price)
+    if( dbData?.message === 'User registered successfully.' ) {
+      navigation.navigate('Login')
+    } else if(dbData?.error) {
+      navigation.navigate('Register', {
+        error: dbData?.error
+      })
+    }
   }
 
   const RenderPlans = ({
@@ -33,7 +50,7 @@ const PlansScreen = ({navigation, route}) => {
     videoQuality,
   }) => {
     return (
-      <Pressable style={styles.planContainer} key={id} android_ripple={{color: '#c06464'}} onPress={() => navigateToLoginScreen(name, price)}>
+      <Pressable style={styles.planContainer} key={id} android_ripple={{color: '#c06464'}} onPress={() => navigateToLoadingPage(name, price)}>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Pressable style={{ backgroundColor: "#c91010", borderRadius: 6, marginBottom: 10, paddingVertical: 5 }}>
             <Text
@@ -102,10 +119,6 @@ const PlansScreen = ({navigation, route}) => {
           Change or cancel your plan anytime.
         </Text>
       </View>
-      {/* <FlatList
-        data={plans}
-        renderItem={({ item, index }) => renderPlans(item)}
-      /> */}
       {plans.map((data, index) => (
         <View key={index}>
           <RenderPlans
