@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const useApi = (middlePartOfApi) => {
     const [apiData, setApiData] = useState();
     const BASE_URL = 'https://api.themoviedb.org/3/';
-    const API_KEY = '';
+    const API_KEY = ''
 
     const getApiResponse = async () => {
         try {

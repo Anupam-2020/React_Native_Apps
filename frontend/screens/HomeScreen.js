@@ -5,7 +5,6 @@ import TrendingComponent from '../components/TrendingComponent';
 import { apis } from '../data/apis';
 
 const HomeScreen = ({route}) => {
-  const username = route.params.username;
   const listOfMovies = route.params.listOfMovies;
 
   return (
@@ -14,7 +13,7 @@ const HomeScreen = ({route}) => {
             {apis.map((api, index) => (
               <View key={index}>
                 <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold', marginLeft: 12, marginTop: 10}}>{api[1]}</Text>
-                <TrendingComponent username={username} middleComponentOfApi={api[0]}/>
+                <TrendingComponent middleComponentOfApi={api[0]}/>
               </View>
               )
             )}

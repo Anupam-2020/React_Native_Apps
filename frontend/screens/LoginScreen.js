@@ -8,21 +8,16 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useLoginCheckDatabase } from "../util/useLoginCheckDatabase";
+import { useDispatch, useSelector } from 'react-redux';
+import { postLoginCheck } from "../store/favouriteListSlice";
 
 const LoginScreen = ({navigation}) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [dbData, setDbData] = useState();
   const [correctInput, setCorrectInput] = useState(true);
-
-  const dbResponse = async(email, password) => {
-    const response = await useLoginCheckDatabase(email, password);
-    console.log(response);
-    setDbData(response);
-    console.log(dbData)
-  }
+  const dispatch = useDispatch();
+  const dbData = useSelector(state => state.favList);
 
   const NETFLIX_LOGO = 'http://pngimg.com/uploads/netflix/netflix_PNG12.png';
 
@@ -33,12 +28,12 @@ const LoginScreen = ({navigation}) => {
   const userPassword = (e) => {
     setPassword(e);
   };
-
+  
   const navigateToLoadingPage = () => {
-    dbResponse(email, password);
+    dispatch(postLoginCheck({email, password}))
 
-    dbData?.error ? setCorrectInput(false) : dbData?.userName ? navigation.navigate('Loading',{
-      username: email,
+    console.log(dbData)
+    dbData?.error ? setCorrectInput(false) : dbData?.username ? navigation.navigate('Loading',{
       list : dbData?.list
     }) : null
   }

@@ -7,7 +7,7 @@ import {
   TextInput,
   View,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const RegisterScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");

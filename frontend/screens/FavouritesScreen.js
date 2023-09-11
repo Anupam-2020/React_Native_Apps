@@ -7,13 +7,14 @@ const FavouritesScreen = ({route}) => {
 
     const data = useSelector(state => state.fav);
     const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original/';
-    // const [movie, setMovie] = useState();
-
-    console.log(data)
+    let list = [];
+    list = [...data, ...listOfMovies];
+    console.log(list)
+    
   return (
     <ScrollView>
       {
-        listOfMovies ? listOfMovies.map((movie, index) => {
+        list ? list?.map((movie, index) => {
           return (
             <View key={index} style={styles.favContainer}>
               <View>

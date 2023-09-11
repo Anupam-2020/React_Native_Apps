@@ -2,21 +2,30 @@ import { StyleSheet, Text, View, Modal, Button, Alert, Image, Pressable } from '
 import React from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../store/favouriteSlice';
 import { usePostMovieList } from '../util/usePostMovieList';
+import { postMovieListDetails } from '../store/favouriteListSlice';
 
-const ModalScreen = ({modal, showModal, details, username}) => {
+const ModalScreen = ({modal, showModal, details}) => {
+
+    const username = useSelector(state => state.favList);
 
     const dispatch = useDispatch();
     const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original/';
     console.log(details);
 
-    const submtHandler = () => {
-        usePostMovieList(details, username)
+    const submtHandler = async () => {
+    await usePostMovieList(details, username.username)
         dispatch(actions.addToFavs(details));
         showModal(false);
     }
+
+    // const submtHandler = () => {
+    // dispatch(postMovieListDetails({details, username}));
+    //     console.log(username.list)
+    //     showModal(false)
+    // }
 
   return (
     <View style={styles.modalContainer}>

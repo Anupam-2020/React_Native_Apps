@@ -1,19 +1,25 @@
 const express = require('express');
 const AppSchema = require('../model/AppSchema');
+const bcrypt = require('bcryptjs');
 
 const router = express();
 
 router.post('/login', async(req, resp, next) => {
     const userCheckInDatabase = await AppSchema.findOne({
-        userName: req.body.username, 
-        password: req.body.password
+        userName: req.body.username
     });
 
     if(userCheckInDatabase) {
-        return resp.status(201).json({
-            userName: userCheckInDatabase.userName, 
-            list: userCheckInDatabase.list
-        });
+        const passwordDecrypt = userCheckInDatabase.password;
+        const passwordCheck = await bcrypt.compare(req.body.password, passwordDecrypt);
+        // console.log(passwordCheck);
+        if(passwordCheck) {
+            return resp.status(201).json({
+                userName: userCheckInDatabase.userName, 
+                list: userCheckInDatabase.list
+            });
+        }
+        return resp.status(422).json({error: 'User not found'});
     }
     return resp.status(422).json({error: 'User not found'});
 })
@@ -46,6 +52,10 @@ router.post('/updateList', async(req, resp, next) => {
         userName: req.body.username}, 
         {$push: {list: req.body.movieDetails
     }})
+
+    const user = await AppSchema.findOne({userName: req.body.username}, {list: 1})
+
+    resp.status(201).json({list: user})
 })
 
 module.exports = {router};

@@ -4,7 +4,7 @@ import useApi from '../util/useApi';
 import ModalScreen from './ModalScreen';
 
 
-const TrendingComponent = ({middleComponentOfApi, username}) => {
+const TrendingComponent = ({middleComponentOfApi}) => {
 
   const [data, setData] = useState();
   const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original/';
@@ -31,7 +31,7 @@ const TrendingComponent = ({middleComponentOfApi, username}) => {
           </Pressable>
         )
       })}
-      {modal && <ModalScreen username={username} modal={modal} showModal={showModal} details={details}/>}
+      {modal && <ModalScreen modal={modal} showModal={showModal} details={details}/>}
     </ScrollView>
   )
 }
