@@ -4,12 +4,11 @@ import Header from '../components/Header'
 import TrendingComponent from '../components/TrendingComponent';
 import { apis } from '../data/apis';
 
-const HomeScreen = ({route}) => {
-  const listOfMovies = route.params.listOfMovies;
+const HomeScreen = () => {
 
   return (
     <ScrollView style={{backgroundColor: 'black'}}>
-      <Header listOfMovies={listOfMovies}/>
+      <Header />
             {apis.map((api, index) => (
               <View key={index}>
                 <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold', marginLeft: 12, marginTop: 10}}>{api[1]}</Text>

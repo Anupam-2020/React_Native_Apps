@@ -33,9 +33,7 @@ const LoginScreen = ({navigation}) => {
     dispatch(postLoginCheck({email, password}))
 
     console.log(dbData)
-    dbData?.error ? setCorrectInput(false) : dbData?.username ? navigation.navigate('Loading',{
-      list : dbData?.list
-    }) : null
+    dbData?.error ? setCorrectInput(false) : dbData?.username ? navigation.navigate('Loading') : null
   }
 
   const navigateToRegister = () => {

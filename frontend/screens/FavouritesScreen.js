@@ -2,13 +2,13 @@ import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 
-const FavouritesScreen = ({route}) => {
-  const listOfMovies = route.params.listOfMovies;
+const FavouritesScreen = () => {
 
     const data = useSelector(state => state.fav);
+    const moviesFromBackend = useSelector(state => state.favList);
     const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original/';
     let list = [];
-    list = [...data, ...listOfMovies];
+    list = [...data, ...moviesFromBackend.list];
     console.log(list)
     
   return (

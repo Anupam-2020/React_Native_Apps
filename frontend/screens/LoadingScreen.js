@@ -1,14 +1,11 @@
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
 
-const LoadingScreen = ({navigation, route}) => {
-  const listOfMovies = route.params.list;
+const LoadingScreen = ({navigation}) => {
 
     useEffect(() => {
         const id = setTimeout(() => {
-            navigation.navigate('Home', {
-              listOfMovies
-            })
+            navigation.navigate('Home')
         },1000)
         return () => {
           clearTimeout(id);
