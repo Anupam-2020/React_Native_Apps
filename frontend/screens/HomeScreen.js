@@ -3,6 +3,7 @@ import React, {useState, useEffect } from 'react'
 import Header from '../components/Header'
 import TrendingComponent from '../components/TrendingComponent';
 import { apis } from '../data/apis';
+import BackHandler from '../components/BackHandler';
 
 const HomeScreen = () => {
 

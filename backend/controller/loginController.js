@@ -54,7 +54,17 @@ router.post('/updateList', async(req, resp, next) => {
     }})
 
     const user = await AppSchema.findOne({userName: req.body.username}, {list: 1})
+    // console.log(user);
+    resp.status(201).json({list: user})
+})
 
+router.post('/removeFromList', async(req, resp, next) => {
+    const movieDetails = await AppSchema.updateOne({
+        userName: req.body.username}, 
+        {$pull: {list: {id: req.body.movieId
+    }}})
+
+    const user = await AppSchema.findOne({userName: req.body.username}, {list: 1})
     resp.status(201).json({list: user})
 })
 
