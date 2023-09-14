@@ -12,10 +12,16 @@ const favouriteListSlice = createSlice({
         .addCase(postMovieListDetails.fulfilled, (state, action) => {
             state.list = action.payload;
         })
+        .addCase(postMovieListDetails.rejected, (state, action) => {
+            state.error = action.payload
+        })
         .addCase(postLoginCheck.fulfilled, (state, action) => {
             state.username = action.payload.userName;
             state.list = action.payload.list;
             state.error = action.payload.error;
+        })
+        .addCase(postLoginCheck.rejected, (state, action) => {
+            state.error = action.payload
         })
         .addCase(deleteFromMovieList.fulfilled, (state, action) => {
             state.list = action.payload;

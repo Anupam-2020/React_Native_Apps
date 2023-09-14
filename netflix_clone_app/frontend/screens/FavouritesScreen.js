@@ -22,7 +22,7 @@ const FavouritesScreen = () => {
   }
   
   return (
-    <>
+    <View style={{marginTop: 20}}>
     <BackHandler />
     <ScrollView>
       {
@@ -47,7 +47,7 @@ const FavouritesScreen = () => {
           </View>)
       }
     </ScrollView>
-    </>
+    </View>
     
   )
 }
