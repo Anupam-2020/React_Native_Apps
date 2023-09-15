@@ -57,13 +57,13 @@ const styles = StyleSheet.create({
     marginTop: 30,
     width: 350,
     paddingHorizontal: 10,
-    paddingVertical: 6,
+    paddingVertical: 8,
     borderRadius: 6,
     height: 50,
   },
   loginButton: {
     backgroundColor: '#d3aa03',
-    paddingVertical: 8,
+    paddingVertical: 10,
     paddingHorizontal: 60,
     textAlign: 'center',
     alignItems:'center',
@@ -76,6 +76,6 @@ const styles = StyleSheet.create({
   textInput: {
     marginLeft: 8, 
     width: '90%', 
-    fontSize: 18
+    fontSize: 20
   }
 })
