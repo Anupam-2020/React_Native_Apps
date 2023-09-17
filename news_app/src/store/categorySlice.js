@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-API_KEY = process.env.REACT_APP_API_KEY;
-BASE_URL = 'https://newsapi.org/v2/';
+const API_KEY = process.env.REACT_APP_API_KEY;
+const BASE_URL = 'https://newsapi.org/v2/';
 
 const newsSlice = createSlice({
     name: 'News',
